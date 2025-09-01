@@ -81,7 +81,7 @@ video#mainVideo {
   background: black;
 }
 
-/* Аватар */
+/* Аватар с покачиванием */
 #avatar {
   width: 120px;
   height: 120px;
@@ -91,12 +91,18 @@ video#mainVideo {
   box-shadow: 0 0 12px white;
   position: relative;
   z-index: 1;
+  animation: swing 4s ease-in-out infinite alternate;
 }
 #avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 50%;
+}
+@keyframes swing {
+  0%   { transform: rotate(-5deg); }
+  50%  { transform: rotate(5deg); }
+  100% { transform: rotate(-5deg); }
 }
 
 /* Ник */
@@ -189,7 +195,7 @@ footer a {
 </div>
 
 <div id="video-section">
-  <video autoplay playsinline id="mainVideo">
+  <video autoplay playsinline muted id="mainVideo">
     <source src="lv_0_20250706151148.mp4" type="video/mp4">
   </video>
   <div id="avatar">
@@ -248,7 +254,7 @@ function togglePlayback() {
     pauseBtn.textContent = '×';
   } else {
     video.pause();
-    pauseBtn.textContent = '>';
+    pauseBtn.textContent = '▶';
   }
 }
 
