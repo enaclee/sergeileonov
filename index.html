@@ -195,7 +195,7 @@ footer a {
 </div>
 
 <div id="video-section">
-  <video autoplay playsinline muted id="mainVideo">
+  <video autoplay playsinline id="mainVideo">
     <source src="lv_0_20250706151148.mp4" type="video/mp4">
   </video>
   <div id="avatar">
@@ -254,7 +254,7 @@ function togglePlayback() {
     pauseBtn.textContent = '×';
   } else {
     video.pause();
-    pauseBtn.textContent = '▶';
+    pauseBtn.textContent = '>';
   }
 }
 
