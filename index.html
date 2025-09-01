@@ -81,6 +81,32 @@ video#mainVideo {
   background: black;
 }
 
+/* Эффект сломанного ТВ */
+#glitch {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 1; /* поверх видео, но под аватаркой и текстом */
+  background: rgba(255,255,255,0.03);
+  animation: glitchEffect 0.1s infinite;
+}
+@keyframes glitchEffect {
+  0%   { opacity: 0.02; transform: translate(0,0); }
+  10%  { opacity: 0.05; transform: translate(-2px,1px); }
+  20%  { opacity: 0.03; transform: translate(1px,-1px); }
+  30%  { opacity: 0.06; transform: translate(-1px,2px); }
+  40%  { opacity: 0.04; transform: translate(2px,-2px); }
+  50%  { opacity: 0.05; transform: translate(0,1px); }
+  60%  { opacity: 0.03; transform: translate(-2px,0); }
+  70%  { opacity: 0.06; transform: translate(1px,1px); }
+  80%  { opacity: 0.04; transform: translate(-1px,-1px); }
+  90%  { opacity: 0.05; transform: translate(2px,0); }
+  100% { opacity: 0.03; transform: translate(0,0); }
+}
+
 /* Аватар с покачиванием */
 #avatar {
   width: 120px;
@@ -90,7 +116,7 @@ video#mainVideo {
   margin-bottom: 16px;
   box-shadow: 0 0 12px white;
   position: relative;
-  z-index: 1;
+  z-index: 2; /* над glitch */
   animation: swing 4s ease-in-out infinite alternate;
 }
 #avatar img {
@@ -114,7 +140,7 @@ video#mainVideo {
   margin-bottom: 16px;
   font-weight: bold;
   will-change: transform;
-  z-index: 1;
+  z-index: 2;
 }
 @keyframes float {
   0%   { transform: translateY(0); }
@@ -135,7 +161,7 @@ video#mainVideo {
   border-radius: 10px;
   background: rgba(255,255,255,0.03);
   box-shadow: 0 0 6px white, 0 0 12px #ccc;
-  z-index: 1;
+  z-index: 2;
 }
 .social-box a {
   font-size: 18px;
@@ -179,7 +205,7 @@ footer {
   color: black;
   font-weight: bold;
   text-shadow: none;
-  z-index: 1;
+  z-index: 2;
 }
 footer a {
   text-decoration: none;
@@ -198,6 +224,10 @@ footer a {
   <video autoplay playsinline id="mainVideo">
     <source src="lv_0_20250706151148.mp4" type="video/mp4">
   </video>
+
+  <!-- Эффект сломанного ТВ -->
+  <div id="glitch"></div>
+
   <div id="avatar">
     <img src="Picsart_25-07-06_12-49-19-291.png" alt="avatar">
   </div>
