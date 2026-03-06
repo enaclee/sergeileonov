@@ -89,7 +89,7 @@ video#mainVideo {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 1; /* поверх видео, но под аватаркой и текстом */
+  z-index: 1;
   background: rgba(255,255,255,0.03);
   animation: glitchEffect 0.1s infinite;
 }
@@ -116,7 +116,7 @@ video#mainVideo {
   margin-bottom: 16px;
   box-shadow: 0 0 12px white;
   position: relative;
-  z-index: 2; /* над glitch */
+  z-index: 2;
   animation: swing 4s ease-in-out infinite alternate;
 }
 #avatar img {
@@ -151,8 +151,8 @@ video#mainVideo {
 .social-box {
   margin-top: 40px;
   margin-bottom: 30px;
-  padding: 10px 20px;
-  max-width: 280px;
+  padding: 10px 25px;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -171,6 +171,8 @@ video#mainVideo {
   border-radius: 8px;
   background: rgba(255,255,255,0.03);
   transition: background 0.3s ease;
+  display: flex;
+  align-items: center;
 }
 .social-box a i {
   margin-right: 8px;
@@ -197,6 +199,7 @@ video#mainVideo {
 
 /* Футер */
 footer {
+  display: none; /* скрыт до старта видео */
   position: absolute;
   bottom: 20px;
   width: 100%;
@@ -225,7 +228,6 @@ footer a {
     <source src="lv_0_20250706151148.mp4" type="video/mp4">
   </video>
 
-  <!-- Эффект сломанного ТВ -->
   <div id="glitch"></div>
 
   <div id="avatar">
@@ -237,7 +239,10 @@ footer a {
     <a href="https://discord.com/users/enaclee" target="_blank"><i class="fab fa-discord"></i> Discord</a>
     <a href="https://steamcommunity.com/id/enalcee" target="_blank"><i class="fab fa-steam"></i> Steam</a>
     <a href="https://vk.com/sergeileonov" target="_blank"><i class="fab fa-vk"></i> VK</a>
+    <a href="https://t.me/enaclee" target="_blank"><i class="fab fa-telegram"></i> Telegram</a>
+    <a href="https://twitch.tv/enaclee" target="_blank"><i class="fab fa-twitch"></i> Twitch</a>
   </div>
+
   <div id="pause-button" onclick="togglePlayback()">×</div>
   <footer>© 2023 - 2028 Все права защищены — Контент защищён авторским правом.<br>Создатель 🖤 <a href="https://vk.com/sergeileonov" target="_blank">@sergeileonov</a></footer>
 </div>
@@ -247,8 +252,7 @@ let isPlaying = false;
 
 window.addEventListener("load", () => {
   setTimeout(() => {
-    const loader = document.getElementById('loader');
-    loader.remove();
+    document.getElementById('loader').remove();
     document.getElementById('start-screen').style.display = 'flex';
   }, 3000);
 });
@@ -257,22 +261,16 @@ function startSite() {
   const startScreen = document.getElementById('start-screen');
   const videoSection = document.getElementById('video-section');
   const video = document.getElementById('mainVideo');
+  const footer = document.querySelector('footer');
 
-  if (isPlaying) {
-    video.pause();
-    videoSection.style.display = "none";
-    startScreen.style.display = "flex";
-    isPlaying = false;
-  } else {
-    startScreen.style.display = "none";
-    videoSection.style.display = "flex";
-    video.play().then(() => {
-      console.log("▶️ Воспроизведение");
-    }).catch((err) => {
-      console.error("⚠️ Ошибка воспроизведения:", err);
-    });
+  startScreen.style.display = "none";
+  videoSection.style.display = "flex";
+  footer.style.display = "block";
+
+  video.play().then(() => {
+    console.log("▶️ Воспроизведение");
     isPlaying = true;
-  }
+  }).catch(err => console.error("⚠️ Ошибка воспроизведения:", err));
 }
 
 function togglePlayback() {
@@ -290,7 +288,7 @@ function togglePlayback() {
 
 const loadingText = document.getElementById('loading-text');
 let dots = 0;
-const interval = setInterval(() => {
+setInterval(() => {
   dots = (dots + 1) % 4;
   loadingText.textContent = 'Загрузка' + '.'.repeat(dots);
 }, 500);
