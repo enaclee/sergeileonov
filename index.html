@@ -107,7 +107,7 @@ video#mainVideo {
   100% { opacity: 0.03; transform: translate(0,0); }
 }
 
-/* Аватар с покачиванием */
+/* Аватар */
 #avatar {
   width: 120px;
   height: 120px;
@@ -170,36 +170,36 @@ video#mainVideo {
   padding: 6px 14px;
   border-radius: 8px;
   background: rgba(255,255,255,0.03);
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
   display: flex;
   align-items: center;
 }
 .social-box a i {
   margin-right: 8px;
 }
-.social-box a:hover {
-  background: rgba(255,255,255,0.1);
+
+/* Подсветка ссылок */
+.social-box a:hover,
+.social-box a:active,
+.social-box a:focus {
+  background: rgba(180, 120, 255, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 0 12px #B497FF, 0 0 20px #ccc;
 }
 
 /* Кнопка паузы */
 #pause-button {
   font-size: 38px;
   color: black;
-  text-shadow: none;
   cursor: pointer;
   margin-bottom: 24px;
-  animation: none;
   z-index: 2;
   user-select: none;
   text-align: center;
 }
-#pause-button:focus {
-  outline: none;
-}
 
 /* Футер */
 footer {
-  display: none; /* скрыт до старта видео */
   position: absolute;
   bottom: 20px;
   width: 100%;
@@ -207,7 +207,6 @@ footer {
   font-size: 14px;
   color: black;
   font-weight: bold;
-  text-shadow: none;
   z-index: 2;
 }
 footer a {
@@ -234,6 +233,7 @@ footer a {
     <img src="Picsart_25-07-06_12-49-19-291.png" alt="avatar">
   </div>
   <div id="username">𓆩enaclee𓆪</div>
+
   <div class="social-box">
     <a href="https://www.faceit.com/en/players/enaclee" target="_blank">⊹ FACEIT</a>
     <a href="https://discord.com/users/enaclee" target="_blank"><i class="fab fa-discord"></i> Discord</a>
@@ -261,23 +261,19 @@ function startSite() {
   const startScreen = document.getElementById('start-screen');
   const videoSection = document.getElementById('video-section');
   const video = document.getElementById('mainVideo');
-  const footer = document.querySelector('footer');
 
   startScreen.style.display = "none";
   videoSection.style.display = "flex";
-  footer.style.display = "block";
-
-  video.play().then(() => {
-    console.log("▶️ Воспроизведение");
-    isPlaying = true;
-  }).catch(err => console.error("⚠️ Ошибка воспроизведения:", err));
+  video.play().then(() => console.log("▶️ Воспроизведение"))
+       .catch(err => console.error("⚠️ Ошибка:", err));
+  isPlaying = true;
 }
 
 function togglePlayback() {
   const video = document.getElementById('mainVideo');
   const pauseBtn = document.getElementById('pause-button');
 
-  if (video.paused) {
+  if(video.paused){
     video.play();
     pauseBtn.textContent = '×';
   } else {
