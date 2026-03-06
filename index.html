@@ -3,10 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>enalcee + Крестики-нолики</title>
+<title>enalcee</title>
 <script src="https://kit.fontawesome.com/b617dc6679.js" crossorigin="anonymous"></script>
 <style>
-/* --- Основные стили --- */
 html, body {
   margin: 0;
   padding: 0;
@@ -15,10 +14,9 @@ html, body {
   font-family: 'Arial Black', sans-serif;
   overflow: hidden;
   user-select: none;
-  color: white;
 }
 
-/* --- Загрузка --- */
+/* Загрузка */
 #loader {
   position: fixed;
   inset: 0;
@@ -39,7 +37,7 @@ html, body {
   100% { opacity: 1; text-shadow: 0 0 14px white, 0 0 26px #ccc; }
 }
 
-/* --- Стартовый экран --- */
+/* Стартовый экран */
 #start-screen {
   opacity: 0.6;
   display: none;
@@ -63,7 +61,7 @@ html, body {
   animation: flicker 1.5s infinite alternate;
 }
 
-/* --- Видео и блок --- */
+/* Видео */
 #video-section {
   display: none;
   flex-direction: column;
@@ -83,7 +81,7 @@ video#mainVideo {
   background: black;
 }
 
-/* --- Эффект сломанного ТВ --- */
+/* Эффект сломанного ТВ */
 #glitch {
   position: fixed;
   top: 0;
@@ -91,7 +89,7 @@ video#mainVideo {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 1;
+  z-index: 1; 
   background: rgba(255,255,255,0.03);
   animation: glitchEffect 0.1s infinite;
 }
@@ -109,7 +107,7 @@ video#mainVideo {
   100% { opacity: 0.03; transform: translate(0,0); }
 }
 
-/* --- Аватар --- */
+/* Аватар */
 #avatar {
   width: 120px;
   height: 120px;
@@ -118,7 +116,7 @@ video#mainVideo {
   margin-bottom: 16px;
   box-shadow: 0 0 12px white;
   position: relative;
-  z-index: 2;
+  z-index: 3;
   animation: swing 4s ease-in-out infinite alternate;
 }
 #avatar img {
@@ -133,7 +131,7 @@ video#mainVideo {
   100% { transform: rotate(-5deg); }
 }
 
-/* --- Ник --- */
+/* Ник */
 #username {
   font-size: 36px;
   color: #B497FF;
@@ -142,19 +140,19 @@ video#mainVideo {
   margin-bottom: 16px;
   font-weight: bold;
   will-change: transform;
-  z-index: 2;
+  z-index: 3;
 }
 @keyframes float {
   0%   { transform: translateY(0); }
   100% { transform: translateY(10px); }
 }
 
-/* --- Соцсети --- */
+/* Соцсети */
 .social-box {
   margin-top: 40px;
   margin-bottom: 30px;
-  padding: 10px 25px;
-  max-width: 320px;
+  padding: 10px 25px; 
+  max-width: 320px;   
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -163,7 +161,7 @@ video#mainVideo {
   border-radius: 10px;
   background: rgba(255,255,255,0.03);
   box-shadow: 0 0 6px white, 0 0 12px #ccc;
-  z-index: 2;
+  z-index: 3;
 }
 .social-box a {
   font-size: 18px;
@@ -176,26 +174,22 @@ video#mainVideo {
   display: flex;
   align-items: center;
 }
-.social-box a i {
-  margin-right: 8px;
-}
-.social-box a:hover {
-  background: rgba(255,255,255,0.1);
-}
+.social-box a i { margin-right: 8px; }
+.social-box a:hover { background: rgba(255,255,255,0.1); }
 
-/* --- Кнопка паузы --- */
+/* Кнопка паузы */
 #pause-button {
   font-size: 38px;
   color: black;
   cursor: pointer;
   margin-bottom: 24px;
-  z-index: 2;
+  z-index: 3;
   user-select: none;
   text-align: center;
 }
 #pause-button:focus { outline: none; }
 
-/* --- Футер --- */
+/* Футер */
 footer {
   position: absolute;
   bottom: 20px;
@@ -204,43 +198,54 @@ footer {
   font-size: 14px;
   color: black;
   font-weight: bold;
-  z-index: 2;
+  z-index: 3;
 }
-footer a { color: #B497FF; text-decoration:none; }
+footer a { text-decoration: none; color: #B497FF; }
 
-/* --- Крестики-нолики --- */
-#tic-container {
-  display: flex;
-  align-items: flex-start;
-  gap: 20px;
-  margin-top: 20px;
-}
-#game {
+/* Игра крестики-нолики */
+#ticTacToe {
+  position: absolute;
+  top: 50px;
+  left: 20px;
   display: grid;
-  grid-template-columns: repeat(3, 80px);
-  grid-template-rows: repeat(3, 80px);
+  grid-template-columns: repeat(3, 60px);
+  grid-template-rows: repeat(3, 60px);
   gap: 5px;
+  z-index: 4;
 }
-.cell {
-  width: 80px; height: 80px;
-  background: #222;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 48px;
+#ticTacToe button {
+  width: 60px;
+  height: 60px;
+  font-size: 32px;
+  font-weight: bold;
   cursor: pointer;
-  border-radius: 8px;
-  transition: background 0.2s;
+  border: 2px solid #B497FF;
+  background: rgba(0,0,0,0.7);
+  color: #B497FF;
 }
-.cell:hover { background: #333; }
-#message { margin-top: 20px; font-size:20px; color:#B497FF; text-align:center;}
-#restart {
-  margin-top: 10px; padding: 8px 16px;
-  font-size: 18px; border: none;
-  border-radius: 8px; cursor:pointer;
-  background:#B497FF; color:black; font-weight:bold;
+#result {
+  position: absolute;
+  top: 230px;
+  left: 20px;
+  color: #B497FF;
+  font-size: 18px;
+  font-weight: bold;
+  z-index: 4;
 }
-#restart:hover { background:#9a7bdc; }
+#resetBtn {
+  display: none;
+  position: absolute;
+  top: 260px;
+  left: 20px;
+  padding: 6px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background: #B497FF;
+  color: black;
+  border: none;
+  border-radius: 6px;
+  z-index: 4;
+}
 </style>
 </head>
 <body>
@@ -255,6 +260,7 @@ footer a { color: #B497FF; text-decoration:none; }
     <source src="lv_0_20250706151148.mp4" type="video/mp4">
   </video>
   <div id="glitch"></div>
+
   <div id="avatar">
     <img src="Picsart_25-07-06_12-49-19-291.png" alt="avatar">
   </div>
@@ -272,97 +278,105 @@ footer a { color: #B497FF; text-decoration:none; }
   <div id="pause-button" onclick="togglePlayback()">×</div>
   <footer>© 2023 - 2028 Все права защищены — Контент защищён авторским правом.<br>Создатель 🖤 <a href="https://vk.com/sergeileonov" target="_blank">@sergeileonov</a></footer>
 
-  <!-- Игровая зона -->
-  <div id="tic-container">
-    <div id="game"></div>
-    <div>
-      <div id="message"></div>
-      <button id="restart" style="display:none;">Начать сначала</button>
-    </div>
-  </div>
+  <!-- Игра крестики-нолики -->
+  <div id="ticTacToe"></div>
+  <div id="result"></div>
+  <button id="resetBtn" onclick="resetGame()">Начать сначала</button>
 </div>
 
 <script>
-// --- Загрузка ---
-let dots = 0;
-const loadingText = document.getElementById('loading-text');
-const interval = setInterval(() => {
-  dots = (dots+1)%4;
-  loadingText.textContent = 'Загрузка'+'.'.repeat(dots);
-},500);
-window.addEventListener("load",()=>{
-  setTimeout(()=>{
+let isPlaying = false;
+
+window.addEventListener("load", () => {
+  setTimeout(() => {
     document.getElementById('loader').remove();
-    document.getElementById('start-screen').style.display='flex';
-  },3000);
+    document.getElementById('start-screen').style.display = 'flex';
+  }, 3000);
 });
 
-// --- Видео ---
-let isPlaying = false;
 function startSite() {
   const startScreen = document.getElementById('start-screen');
   const videoSection = document.getElementById('video-section');
   const video = document.getElementById('mainVideo');
-  if(isPlaying){video.pause(); videoSection.style.display="none"; startScreen.style.display="flex"; isPlaying=false;}
-  else {startScreen.style.display="none"; videoSection.style.display="flex"; video.play().catch(()=>{}); isPlaying=true;}
+
+  startScreen.style.display = "none";
+  videoSection.style.display = "flex";
+  video.play().catch(err => console.error(err));
+  isPlaying = true;
 }
+
 function togglePlayback() {
   const video = document.getElementById('mainVideo');
   const pauseBtn = document.getElementById('pause-button');
-  if(video.paused){video.play(); pauseBtn.textContent='×';}
-  else {video.pause(); pauseBtn.textContent='>';}
+  if(video.paused){ video.play(); pauseBtn.textContent='×'; }
+  else{ video.pause(); pauseBtn.textContent='>'; }
 }
 
-// --- Крестики-нолики ---
-const gameContainer = document.getElementById('game');
-const message = document.getElementById('message');
-const restartBtn = document.getElementById('restart');
-let board = Array(9).fill(''), gameOver=false;
+// Загрузка
+let dots = 0;
+const interval = setInterval(()=>{
+  document.getElementById('loading-text').textContent='Загрузка'+'.'.repeat(dots);
+  dots=(dots+1)%4;
+},500);
 
-// Создание ячеек
+// --------- Крестики-нолики ---------
+const board = Array(9).fill('');
+let human = 'X';
+let ai = 'O';
+let gameOver = false;
+const grid = document.getElementById('ticTacToe');
+const result = document.getElementById('result');
+const resetBtn = document.getElementById('resetBtn');
+
+// создаем кнопки
 for(let i=0;i<9;i++){
-  const cell=document.createElement('div');
-  cell.classList.add('cell');
-  cell.dataset.index=i;
-  cell.addEventListener('click', playerMove);
-  gameContainer.appendChild(cell);
+  const btn = document.createElement('button');
+  btn.addEventListener('click',()=>humanMove(i));
+  grid.appendChild(btn);
 }
 
-function playerMove(e){
-  const idx=e.target.dataset.index;
-  if(board[idx]==='' && !gameOver){
-    board[idx]='X';
-    e.target.textContent='X';
-    if(checkWinner('X')) return endGame("Поздравляю держи медальку 🏅");
-    if(board.every(c=>c!=='')) return endGame("Ничья!");
-    setTimeout(computerMove,300);
-  }
+function humanMove(i){
+  if(gameOver || board[i]!='') return;
+  board[i]=human;
+  grid.children[i].textContent=human;
+  if(checkWin(human)){ endGame(human); return; }
+  if(board.every(c=>c!='')){ endGame('Ничья'); return; }
+  aiMove();
 }
-function computerMove(){
-  let emptyIndices = board.map((v,i)=>v===''?i:null).filter(v=>v!==null);
-  if(emptyIndices.length===0) return;
-  const move=emptyIndices[Math.floor(Math.random()*emptyIndices.length)];
-  board[move]='O';
-  document.querySelector(`.cell[data-index='${move}']`).textContent='O';
-  if(checkWinner('O')) return endGame("Компьютер победил!");
-  if(board.every(c=>c!=='')) return endGame("Ничья!");
+
+function aiMove(){
+  const empty = board.map((v,i)=>v==''?i:null).filter(v=>v!=null);
+  const move = empty[Math.floor(Math.random()*empty.length)];
+  board[move]=ai;
+  grid.children[move].textContent=ai;
+  if(checkWin(ai)){ endGame(ai); return; }
+  if(board.every(c=>c!='')){ endGame('Ничья'); return; }
 }
-function checkWinner(player){
-  const winCombos=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
-  return winCombos.some(combo=>combo.every(i=>board[i]===player));
+
+function checkWin(player){
+  const wins=[
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
+  ];
+  return wins.some(combo=>combo.every(i=>board[i]==player));
 }
-function endGame(msg){
+
+function endGame(winner){
   gameOver=true;
-  message.textContent=msg;
-  restartBtn.style.display='inline-block';
+  if(winner==='X'){ result.textContent='Поздравляю держи медальку 🏅'; }
+  else if(winner==='O'){ result.textContent='Ты проиграл 😢'; }
+  else{ result.textContent='Ничья'; }
+  resetBtn.style.display='block';
 }
-restartBtn.addEventListener('click', ()=>{
+
+function resetGame(){
   board.fill('');
-  document.querySelectorAll('.cell').forEach(c=>c.textContent='');
+  Array.from(grid.children).forEach(c=>c.textContent='');
+  result.textContent='';
   gameOver=false;
-  message.textContent='';
-  restartBtn.style.display='none';
-});
+  resetBtn.style.display='none';
+}
 </script>
 </body>
 </html>
