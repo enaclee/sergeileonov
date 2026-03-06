@@ -61,7 +61,7 @@ html, body {
   animation: flicker 1.5s infinite alternate;
 }
 
-/* Видео */
+/* Видео и блок */
 #video-section {
   display: none;
   flex-direction: column;
@@ -89,7 +89,7 @@ video#mainVideo {
   width: 100vw;
   height: 100vh;
   pointer-events: none;
-  z-index: 1; 
+  z-index: 1;
   background: rgba(255,255,255,0.03);
   animation: glitchEffect 0.1s infinite;
 }
@@ -107,7 +107,7 @@ video#mainVideo {
   100% { opacity: 0.03; transform: translate(0,0); }
 }
 
-/* Аватар */
+/* Аватар с покачиванием */
 #avatar {
   width: 120px;
   height: 120px;
@@ -116,7 +116,7 @@ video#mainVideo {
   margin-bottom: 16px;
   box-shadow: 0 0 12px white;
   position: relative;
-  z-index: 3;
+  z-index: 2;
   animation: swing 4s ease-in-out infinite alternate;
 }
 #avatar img {
@@ -140,7 +140,7 @@ video#mainVideo {
   margin-bottom: 16px;
   font-weight: bold;
   will-change: transform;
-  z-index: 3;
+  z-index: 2;
 }
 @keyframes float {
   0%   { transform: translateY(0); }
@@ -151,8 +151,8 @@ video#mainVideo {
 .social-box {
   margin-top: 40px;
   margin-bottom: 30px;
-  padding: 10px 25px; 
-  max-width: 320px;   
+  padding: 10px 25px;
+  max-width: 320px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -161,7 +161,7 @@ video#mainVideo {
   border-radius: 10px;
   background: rgba(255,255,255,0.03);
   box-shadow: 0 0 6px white, 0 0 12px #ccc;
-  z-index: 3;
+  z-index: 2;
 }
 .social-box a {
   font-size: 18px;
@@ -174,23 +174,32 @@ video#mainVideo {
   display: flex;
   align-items: center;
 }
-.social-box a i { margin-right: 8px; }
-.social-box a:hover { background: rgba(255,255,255,0.1); }
+.social-box a i {
+  margin-right: 8px;
+}
+.social-box a:hover {
+  background: rgba(255,255,255,0.1);
+}
 
 /* Кнопка паузы */
 #pause-button {
   font-size: 38px;
   color: black;
+  text-shadow: none;
   cursor: pointer;
   margin-bottom: 24px;
-  z-index: 3;
+  animation: none;
+  z-index: 2;
   user-select: none;
   text-align: center;
 }
-#pause-button:focus { outline: none; }
+#pause-button:focus {
+  outline: none;
+}
 
 /* Футер */
 footer {
+  display: none; /* скрыт до старта видео */
   position: absolute;
   bottom: 20px;
   width: 100%;
@@ -198,53 +207,12 @@ footer {
   font-size: 14px;
   color: black;
   font-weight: bold;
-  z-index: 3;
+  text-shadow: none;
+  z-index: 2;
 }
-footer a { text-decoration: none; color: #B497FF; }
-
-/* Игра крестики-нолики */
-#ticTacToe {
-  position: absolute;
-  top: 50px;
-  left: 20px;
-  display: grid;
-  grid-template-columns: repeat(3, 60px);
-  grid-template-rows: repeat(3, 60px);
-  gap: 5px;
-  z-index: 4;
-}
-#ticTacToe button {
-  width: 60px;
-  height: 60px;
-  font-size: 32px;
-  font-weight: bold;
-  cursor: pointer;
-  border: 2px solid #B497FF;
-  background: rgba(0,0,0,0.7);
+footer a {
+  text-decoration: none;
   color: #B497FF;
-}
-#result {
-  position: absolute;
-  top: 230px;
-  left: 20px;
-  color: #B497FF;
-  font-size: 18px;
-  font-weight: bold;
-  z-index: 4;
-}
-#resetBtn {
-  display: none;
-  position: absolute;
-  top: 260px;
-  left: 20px;
-  padding: 6px 12px;
-  font-size: 16px;
-  cursor: pointer;
-  background: #B497FF;
-  color: black;
-  border: none;
-  border-radius: 6px;
-  z-index: 4;
 }
 </style>
 </head>
@@ -259,13 +227,13 @@ footer a { text-decoration: none; color: #B497FF; }
   <video autoplay playsinline id="mainVideo">
     <source src="lv_0_20250706151148.mp4" type="video/mp4">
   </video>
+
   <div id="glitch"></div>
 
   <div id="avatar">
     <img src="Picsart_25-07-06_12-49-19-291.png" alt="avatar">
   </div>
   <div id="username">𓆩enaclee𓆪</div>
-
   <div class="social-box">
     <a href="https://www.faceit.com/en/players/enaclee" target="_blank">⊹ FACEIT</a>
     <a href="https://discord.com/users/enaclee" target="_blank"><i class="fab fa-discord"></i> Discord</a>
@@ -277,11 +245,6 @@ footer a { text-decoration: none; color: #B497FF; }
 
   <div id="pause-button" onclick="togglePlayback()">×</div>
   <footer>© 2023 - 2028 Все права защищены — Контент защищён авторским правом.<br>Создатель 🖤 <a href="https://vk.com/sergeileonov" target="_blank">@sergeileonov</a></footer>
-
-  <!-- Игра крестики-нолики -->
-  <div id="ticTacToe"></div>
-  <div id="result"></div>
-  <button id="resetBtn" onclick="resetGame()">Начать сначала</button>
 </div>
 
 <script>
@@ -298,85 +261,37 @@ function startSite() {
   const startScreen = document.getElementById('start-screen');
   const videoSection = document.getElementById('video-section');
   const video = document.getElementById('mainVideo');
+  const footer = document.querySelector('footer');
 
   startScreen.style.display = "none";
   videoSection.style.display = "flex";
-  video.play().catch(err => console.error(err));
-  isPlaying = true;
+  footer.style.display = "block";
+
+  video.play().then(() => {
+    console.log("▶️ Воспроизведение");
+    isPlaying = true;
+  }).catch(err => console.error("⚠️ Ошибка воспроизведения:", err));
 }
 
 function togglePlayback() {
   const video = document.getElementById('mainVideo');
   const pauseBtn = document.getElementById('pause-button');
-  if(video.paused){ video.play(); pauseBtn.textContent='×'; }
-  else{ video.pause(); pauseBtn.textContent='>'; }
+
+  if (video.paused) {
+    video.play();
+    pauseBtn.textContent = '×';
+  } else {
+    video.pause();
+    pauseBtn.textContent = '>';
+  }
 }
 
-// Загрузка
+const loadingText = document.getElementById('loading-text');
 let dots = 0;
-const interval = setInterval(()=>{
-  document.getElementById('loading-text').textContent='Загрузка'+'.'.repeat(dots);
-  dots=(dots+1)%4;
-},500);
-
-// --------- Крестики-нолики ---------
-const board = Array(9).fill('');
-let human = 'X';
-let ai = 'O';
-let gameOver = false;
-const grid = document.getElementById('ticTacToe');
-const result = document.getElementById('result');
-const resetBtn = document.getElementById('resetBtn');
-
-// создаем кнопки
-for(let i=0;i<9;i++){
-  const btn = document.createElement('button');
-  btn.addEventListener('click',()=>humanMove(i));
-  grid.appendChild(btn);
-}
-
-function humanMove(i){
-  if(gameOver || board[i]!='') return;
-  board[i]=human;
-  grid.children[i].textContent=human;
-  if(checkWin(human)){ endGame(human); return; }
-  if(board.every(c=>c!='')){ endGame('Ничья'); return; }
-  aiMove();
-}
-
-function aiMove(){
-  const empty = board.map((v,i)=>v==''?i:null).filter(v=>v!=null);
-  const move = empty[Math.floor(Math.random()*empty.length)];
-  board[move]=ai;
-  grid.children[move].textContent=ai;
-  if(checkWin(ai)){ endGame(ai); return; }
-  if(board.every(c=>c!='')){ endGame('Ничья'); return; }
-}
-
-function checkWin(player){
-  const wins=[
-    [0,1,2],[3,4,5],[6,7,8],
-    [0,3,6],[1,4,7],[2,5,8],
-    [0,4,8],[2,4,6]
-  ];
-  return wins.some(combo=>combo.every(i=>board[i]==player));
-}
-
-function endGame(winner){
-  gameOver=true;
-  if(winner==='X'){ result.textContent='Поздравляю держи медальку 🏅'; }
-  else if(winner==='O'){ result.textContent='Ты проиграл 😢'; }
-  else{ result.textContent='Ничья'; }
-  resetBtn.style.display='block';
-}
-
-function resetGame(){
-  board.fill('');
-  Array.from(grid.children).forEach(c=>c.textContent='');
-  result.textContent='';
-  gameOver=false;
-  resetBtn.style.display='none';
-}
+setInterval(() => {
+  dots = (dots + 1) % 4;
+  loadingText.textContent = 'Загрузка' + '.'.repeat(dots);
+}, 500);
 </script>
 </body>
 </html>
